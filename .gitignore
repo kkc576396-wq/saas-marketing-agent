@@ -1,0 +1,7 @@
+.env
+venv/
+**pycache**/
+.skills/anysearch/runtime.conf
+__pycache__/
+*.py[cod]
+.pytest_cache/
