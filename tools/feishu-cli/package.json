@@ -1,0 +1,7 @@
+{
+  "name": "saas-marketing-agent-feishu-cli",
+  "private": true,
+  "dependencies": {
+    "@larksuite/cli": "1.0.84"
+  }
+}

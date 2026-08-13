@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="SmartPush Research、Content、RAG 与 Reflection 完整链路测试控制台"
+    />
+    <title>SmartPush Marketing Agent Lab</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="SmartPush Marketing Agent Lab 首页">
+        <span class="brand-mark">SP</span>
+        <span>
+          <strong>Marketing Agent Lab</strong>
+          <small>Research → Content → Reflection</small>
+        </span>
+      </a>
+      <div class="system-status">
+        <span class="status-dot" aria-hidden="true"></span>
+        本地完整链路
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">END-TO-END ACCEPTANCE CONSOLE</p>
+          <h1 id="page-title">用一句话，测试完整的<br /><em>营销内容生产链。</em></h1>
+        </div>
+        <aside class="hero-note">
+          <span>当前版本</span>
+          <strong>5 stages ready</strong>
+          <p>意图识别、Research、Plan-and-Solve、双模型 Reflection 与三级记忆。</p>
+        </aside>
+      </section>
+
+      <section class="test-panel" aria-label="创建完整链路测试">
+        <form id="research-form">
+          <div class="field-heading">
+            <div>
+              <span class="field-index">01</span>
+              <label for="topic">输入完整任务</label>
+            </div>
+            <small>调查内容和生成意图放在同一句中</small>
+          </div>
+          <textarea
+            id="topic"
+            name="topic"
+            rows="7"
+            maxlength="2000"
+            required
+            placeholder="例如：调查最近一年北美 Shopify 商家在邮件自动化方面的主要痛点，结合 SmartPush 产品能力，生成一篇英文 Reddit 宣传文章。不要使用未经验证的数据，并明确披露品牌关系。"
+          ></textarea>
+
+          <div class="scenario-row" aria-label="完整测试场景">
+            <button
+              type="button"
+              class="scenario-chip"
+              data-prompt="调查最近一年北美 Shopify 商家在邮件自动化方面的主要痛点和市场趋势，结合 SmartPush 已验证的产品能力，生成一篇面向小型 DTC 品牌的英文主页推广文章。不要编造数字、价格或客户案例。"
+            >
+              <strong>Homepage</strong><span>趋势 → 主页文章</span>
+            </button>
+            <button
+              type="button"
+              class="scenario-chip"
+              data-prompt="调查 Reddit 上最近讨论 Shopify 邮件自动化工具选择或弃购挽回的帖子，选择一个与 SmartPush 能力真正相关且适合回复的帖子，生成一条用户可以直接复制的英文回复。先回答原帖问题，明确披露我与 SmartPush 的关系，不要硬性推销。"
+            >
+              <strong>Reddit Reply</strong><span>选帖 → 可复制回复</span>
+            </button>
+            <button
+              type="button"
+              class="scenario-chip"
+              data-prompt="调查 Klaviyo、Omnisend 与 SmartPush 在北美中小型电商品牌邮件和短信营销场景中的最新定位、核心能力与公开价格信息，生成一份英文竞品调研报告。所有当前事实都要附来源，无法验证的项目明确标记未知。"
+            >
+              <strong>Competitor</strong><span>检索 → 竞品报告</span>
+            </button>
+          </div>
+
+          <div class="run-contract">
+            <div><span>Research</span><strong>最多 5 轮</strong></div>
+            <div><span>Content</span><strong>2 个 LLM 步骤</strong></div>
+            <div><span>RAG</span><strong>与 Research 并行</strong></div>
+            <div><span>Reflection</span><strong>风险门控 / 1 轮</strong></div>
+            <div><span>Memory</span><strong>SQLite + Brand RAG</strong></div>
+          </div>
+
+          <div class="form-footer">
+            <p>真实模型与真实检索会需要几分钟，请保持页面打开。</p>
+            <button class="primary-button" id="submit-button" type="submit">
+              <span>运行完整测试</span><i aria-hidden="true">→</i>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section id="progress-section" class="progress-section hidden" aria-live="polite">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LIVE STATE MACHINE</p>
+            <h2>Agent 正在执行</h2>
+          </div>
+          <span id="elapsed-time" class="elapsed">00:00</span>
+        </div>
+
+        <ol id="pipeline-track" class="pipeline-track" aria-label="执行阶段">
+          <li data-pipeline="planning"><span>1</span><strong>Intent</strong><small>识别意图</small></li>
+          <li data-pipeline="research"><span>2</span><strong>Research</strong><small>检索证据</small></li>
+          <li data-pipeline="rag"><span>3</span><strong>RAG</strong><small>并行预取</small></li>
+          <li data-pipeline="evaluation"><span>4</span><strong>Evaluate</strong><small>验证筛选</small></li>
+          <li data-pipeline="content"><span>5</span><strong>Plan</strong><small>2～3 步</small></li>
+          <li data-pipeline="execute"><span>6</span><strong>Solve</strong><small>两次执行</small></li>
+          <li data-pipeline="reflection"><span>7</span><strong>Reflect</strong><small>核查修订</small></li>
+          <li data-pipeline="save"><span>8</span><strong>Save</strong><small>最终保存</small></li>
+        </ol>
+
+        <div class="progress-card">
+          <div class="orb" aria-hidden="true"><span></span></div>
+          <div class="progress-copy">
+            <strong id="stage-label">准备测试任务</strong>
+            <p id="stage-detail">正在连接本地 Marketing Agent…</p>
+          </div>
+          <div id="mode-badge" class="mode-badge">PLAN MODE</div>
+        </div>
+
+        <div class="live-metrics">
+          <article><span>Research</span><strong><b id="iteration-count">0</b>/5</strong><small>检索轮次</small></article>
+          <article><span>Content Plan</span><strong><b id="step-count">0</b></strong><small>计划步骤</small></article>
+          <article><span>Executor</span><strong><b id="executor-count">0</b></strong><small>LLM 调用</small></article>
+          <article><span>RAG</span><strong><b id="rag-count">0</b></strong><small>预取批次</small></article>
+          <article><span>Reflection</span><strong><b id="reflection-count">0</b>/1</strong><small>审查轮次</small></article>
+        </div>
+
+        <div class="source-preview hidden" id="source-preview">
+          <span>已调用来源</span>
+          <div id="live-source-chips" class="chips"></div>
+        </div>
+      </section>
+
+      <section id="error-section" class="error-section hidden" role="alert">
+        <span class="error-code">RUN FAILED</span>
+        <strong>本次完整测试未完成</strong>
+        <p id="error-message"></p>
+        <button type="button" id="retry-button">返回输入并重试</button>
+      </section>
+
+      <section id="results-section" class="results-section hidden">
+        <div class="results-intro">
+          <div>
+            <p class="eyebrow">ACCEPTANCE RESULT</p>
+            <h2 id="result-title">完整链路结果</h2>
+          </div>
+          <button type="button" class="secondary-button" id="new-research">运行新测试</button>
+        </div>
+
+        <div id="acceptance-summary" class="acceptance-summary"></div>
+
+        <section class="final-output-section" aria-labelledby="final-output-title">
+          <div class="output-heading">
+            <div>
+              <span class="card-kicker">FINAL CONTENT</span>
+              <h2 id="final-output-title">最终可用内容</h2>
+            </div>
+            <div class="output-actions">
+              <button type="button" class="copy-button" id="copy-final">复制最终内容</button>
+              <button type="button" class="publish-button hidden" id="publish-feishu">发布到飞书</button>
+            </div>
+          </div>
+          <div id="feishu-publication" class="publication-status hidden" aria-live="polite"></div>
+          <div id="final-content" tabindex="0"></div>
+        </section>
+
+        <section class="diagnostic-section" aria-labelledby="diagnostic-title">
+          <div class="insight-heading compact-heading">
+            <div>
+              <span class="card-kicker">STATE DIAGNOSTICS</span>
+              <h2 id="diagnostic-title">意图与执行诊断</h2>
+            </div>
+            <p>用于确认输入没有在 Agent 之间丢失或曲解</p>
+          </div>
+          <div class="diagnostic-grid">
+            <article class="diagnostic-card">
+              <span>Original request</span>
+              <p id="original-request"></p>
+            </article>
+            <article class="diagnostic-card">
+              <span>Research objective</span>
+              <p id="research-objective"></p>
+            </article>
+            <article class="diagnostic-card intent-card">
+              <span>Content intent</span>
+              <div id="content-intent" class="key-value-list"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="trace-section" aria-labelledby="trace-title">
+          <div class="insight-heading compact-heading">
+            <div>
+              <span class="card-kicker">PLAN-AND-SOLVE TRACE</span>
+              <h2 id="trace-title">计划与执行记录</h2>
+            </div>
+            <p id="trace-summary"></p>
+          </div>
+          <div class="trace-layout">
+            <div>
+              <h3>Content plan</h3>
+              <div id="content-plan" class="timeline"></div>
+            </div>
+            <div>
+              <h3>Execution history</h3>
+              <div id="execution-history" class="timeline"></div>
+            </div>
+          </div>
+          <div id="rag-audit" class="rag-audit"></div>
+        </section>
+
+        <section class="reflection-section" aria-labelledby="reflection-title">
+          <div class="reflection-heading">
+            <div>
+              <span class="card-kicker">CHAIN OF VERIFICATION</span>
+              <h2 id="reflection-title">Reflection 审查结果</h2>
+            </div>
+            <div id="reflection-status-badge" class="large-status"></div>
+          </div>
+          <p id="verification-summary" class="section-note"></p>
+          <div class="reflection-columns">
+            <div>
+              <h3>核查问题与结论</h3>
+              <div id="verification-results" class="check-list"></div>
+            </div>
+            <div>
+              <h3>修订记录</h3>
+              <div id="revision-history" class="check-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="research-results" aria-labelledby="research-title">
+          <div class="insight-heading compact-heading">
+            <div>
+              <span class="card-kicker">RESEARCH EVIDENCE</span>
+              <h2 id="research-title">研究证据</h2>
+            </div>
+            <p>Reflection 与最终内容使用的外部依据</p>
+          </div>
+          <div id="metrics" class="metrics" aria-label="调研统计"></div>
+          <article class="router-card">
+            <div><span class="card-kicker">SOURCE ROUTER</span><h3>实际调用来源</h3></div>
+            <div><div id="source-chips" class="chips"></div><p id="source-reasoning"></p></div>
+          </article>
+          <div id="eligible-insights" class="insight-list"></div>
+          <details class="alternatives-panel">
+            <summary>
+              <span><strong>备选洞察</strong><small>查看已验证但未进入 Top 5 的结果</small></span>
+              <i aria-hidden="true">＋</i>
+            </summary>
+            <div id="alternative-insights" class="alternative-list"></div>
+          </details>
+        </section>
+
+        <details class="raw-state-panel">
+          <summary><span><strong>查看完整 MarketingState 输出</strong><small>用于开发调试和字段核对</small></span><i aria-hidden="true">＋</i></summary>
+          <pre id="raw-state" tabindex="0"></pre>
+        </details>
+      </section>
+    </main>
+
+    <footer>
+      <span>SmartPush Marketing Agent Lab</span>
+      <span>DeepSeek · Qwen · LangGraph · Brand RAG</span>
+    </footer>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
